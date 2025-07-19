@@ -49,6 +49,11 @@ class SkierServicesImplTest {
     @Test
     void testAddSkier() {
         Skier skier = new Skier();
+        // Mock Subscription and set to skier
+        tn.esprit.spring.entities.Subscription subscription = mock(tn.esprit.spring.entities.Subscription.class);
+        when(subscription.getTypeSub()).thenReturn(tn.esprit.spring.entities.TypeSubscription.ANNUAL);
+        when(subscription.getStartDate()).thenReturn(java.time.LocalDate.now());
+        skier.setSubscription(subscription);
         when(skierRepository.save(any(Skier.class))).thenReturn(skier);
         Skier result = skierServices.addSkier(skier);
         assertNotNull(result);
@@ -72,10 +77,15 @@ class SkierServicesImplTest {
     @Test
     void testAddSkierAndAssignToCourse() {
         Skier skier = new Skier();
+        // Set non-null registrations
+        skier.setRegistrations(new java.util.HashSet<>());
         when(skierRepository.save(any(Skier.class))).thenReturn(skier);
+        // Mock courseRepository.getById
+        when(courseRepository.getById(1L)).thenReturn(new tn.esprit.spring.entities.Course());
         Skier result = skierServices.addSkierAndAssignToCourse(skier, 1L);
         assertNotNull(result);
         verify(skierRepository).save(skier);
+        verify(courseRepository).getById(1L);
     }
 
     @Test
