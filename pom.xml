@@ -71,5 +71,17 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+  <repository>
+    <id>nexus</id>
+    <name>Nexus Release Repository</name>
+    <url>http://192.168.56.138:8081/repository/maven2-jinkins-hosted/</url>
+  </repository>
+  <snapshotRepository>
+    <id>nexus</id>
+    <name>Nexus Snapshot Repository</name>
+    <url>http://192.168.56.138:8081/repository/maven2-jinkins-snapshot/</url>
+  </snapshotRepository>
+	</distributionManagement>
 
 </project>
