@@ -27,6 +27,8 @@ class SkierServicesImplTest {
     private ISubscriptionRepository subscriptionRepository;
     @Mock
     private IPisteRepository pisteRepository;
+    @Mock
+    private tn.esprit.spring.repositories.ICourseRepository courseRepository;
     @InjectMocks
     private SkierServicesImpl skierServices;
 
