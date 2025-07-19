@@ -7,10 +7,19 @@ import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.entities.Skier;
 import tn.esprit.spring.repositories.*;
 
-import java.util.Collections;
+import java.util.*;
+import java.util.Optional;
+import java.util.HashSet;
+import tn.esprit.spring.entities.Subscription;
+import tn.esprit.spring.entities.TypeSubscription;
+import tn.esprit.spring.entities.Registration;
+import tn.esprit.spring.entities.Course;
+import tn.esprit.spring.entities.Piste;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.BeforeEach;
 
 class SkierServicesImplTest {
 
