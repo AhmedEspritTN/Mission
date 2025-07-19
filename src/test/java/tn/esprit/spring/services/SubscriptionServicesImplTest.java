@@ -34,7 +34,9 @@ class SubscriptionServicesImplTest {
 
     @Test
     void testAddSubscription() {
-        Subscription subscription = new Subscription();
+        Subscription subscription = mock(Subscription.class);
+        when(subscription.getTypeSub()).thenReturn(tn.esprit.spring.entities.TypeSubscription.ANNUAL);
+        when(subscription.getStartDate()).thenReturn(java.time.LocalDate.of(2025, 1, 1));
         when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
         Subscription result = subscriptionServices.addSubscription(subscription);
         assertNotNull(result);

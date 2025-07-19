@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.entities.Instructor;
 import tn.esprit.spring.repositories.IInstructorRepository;
+import tn.esprit.spring.repositories.ICourseRepository;
+import tn.esprit.spring.entities.Course;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -16,9 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+
 class InstructorServicesImplTest {
     @Mock
     private IInstructorRepository instructorRepository;
+    @Mock
+    private ICourseRepository courseRepository;
 
     @InjectMocks
     private InstructorServicesImpl instructorServices;
@@ -67,9 +72,12 @@ class InstructorServicesImplTest {
     @Test
     void testAddInstructorAndAssignToCourse() {
         Instructor instructor = new Instructor();
+        Course course = new Course();
+        when(courseRepository.findById(1L)).thenReturn(java.util.Optional.of(course));
         when(instructorRepository.save(any(Instructor.class))).thenReturn(instructor);
         Instructor result = instructorServices.addInstructorAndAssignToCourse(instructor, 1L);
         assertNotNull(result);
+        verify(courseRepository).findById(1L);
         verify(instructorRepository).save(instructor);
     }
 }
