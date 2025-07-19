@@ -13,8 +13,8 @@ import tn.esprit.spring.repositories.ICourseRepository;
 import tn.esprit.spring.entities.Skier;
 import tn.esprit.spring.entities.Course;
 
+
 import java.util.Collections;
-import java.util.Optional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
