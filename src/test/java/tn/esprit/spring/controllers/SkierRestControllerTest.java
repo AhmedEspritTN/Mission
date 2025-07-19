@@ -46,7 +46,7 @@ class SkierRestControllerTest {
     void testAddSkier() throws Exception {
         Skier skier = new Skier();
         when(skierServices.addSkier(any(Skier.class))).thenReturn(skier);
-        mockMvc.perform(post("/add")
+        mockMvc.perform(post("/skier/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(skier)))
                 .andExpect(status().isOk());
@@ -57,7 +57,7 @@ class SkierRestControllerTest {
     void testAddSkierAndAssignToCourse() throws Exception {
         Skier skier = new Skier();
         when(skierServices.addSkierAndAssignToCourse(any(Skier.class), eq(1L))).thenReturn(skier);
-        mockMvc.perform(post("/addAndAssign/1")
+        mockMvc.perform(post("/skier/addAndAssign/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(skier)))
                 .andExpect(status().isOk());
@@ -68,7 +68,7 @@ class SkierRestControllerTest {
     void testAssignToSubscription() throws Exception {
         Skier skier = new Skier();
         when(skierServices.assignSkierToSubscription(1L, 2L)).thenReturn(skier);
-        mockMvc.perform(put("/assignToSub/1/2"))
+        mockMvc.perform(put("/skier/assignToSub/1/2"))
                 .andExpect(status().isOk());
         verify(skierServices).assignSkierToSubscription(1L, 2L);
     }
@@ -77,7 +77,7 @@ class SkierRestControllerTest {
     void testAssignToPiste() throws Exception {
         Skier skier = new Skier();
         when(skierServices.assignSkierToPiste(1L, 2L)).thenReturn(skier);
-        mockMvc.perform(put("/assignToPiste/1/2"))
+        mockMvc.perform(put("/skier/assignToPiste/1/2"))
                 .andExpect(status().isOk());
         verify(skierServices).assignSkierToPiste(1L, 2L);
     }
@@ -86,7 +86,7 @@ class SkierRestControllerTest {
     void testRetrieveSkiersBySubscriptionType() throws Exception {
         List<Skier> skiers = Arrays.asList(new Skier(), new Skier());
         when(skierServices.retrieveSkiersBySubscriptionType(any(TypeSubscription.class))).thenReturn(skiers);
-        mockMvc.perform(get("/getSkiersBySubscription")
+        mockMvc.perform(get("/skier/getSkiersBySubscription")
                 .param("typeSubscription", "ANNUAL"))
                 .andExpect(status().isOk());
         verify(skierServices).retrieveSkiersBySubscriptionType(any(TypeSubscription.class));
@@ -96,7 +96,7 @@ class SkierRestControllerTest {
     void testGetById() throws Exception {
         Skier skier = new Skier();
         when(skierServices.retrieveSkier(1L)).thenReturn(skier);
-        mockMvc.perform(get("/get/1"))
+        mockMvc.perform(get("/skier/get/1"))
                 .andExpect(status().isOk());
         verify(skierServices).retrieveSkier(1L);
     }
@@ -104,7 +104,7 @@ class SkierRestControllerTest {
     @Test
     void testDeleteById() throws Exception {
         doNothing().when(skierServices).removeSkier(1L);
-        mockMvc.perform(delete("/delete/1"))
+        mockMvc.perform(delete("/skier/delete/1"))
                 .andExpect(status().isOk());
         verify(skierServices).removeSkier(1L);
     }
@@ -112,7 +112,7 @@ class SkierRestControllerTest {
     @Test
     void testGetAllSkiers() throws Exception {
         when(skierServices.retrieveAllSkiers()).thenReturn(Collections.emptyList());
-        mockMvc.perform(get("/all"))
+        mockMvc.perform(get("/skier/all"))
                 .andExpect(status().isOk());
         verify(skierServices).retrieveAllSkiers();
     }
