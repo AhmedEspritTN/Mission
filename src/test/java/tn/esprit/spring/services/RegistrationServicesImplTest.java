@@ -70,10 +70,12 @@ class RegistrationServicesImplTest {
     @Test
     void testAddRegistrationAndAssignToSkierAndCourse() {
         Registration registration = new Registration();
-        Skier skier = new Skier();
-        skier.setNumSkier(1L);
-        Course course = new Course();
-        course.setNumCourse(2L);
+        Skier skier = mock(Skier.class);
+        when(skier.getNumSkier()).thenReturn(1L);
+        when(skier.getDateOfBirth()).thenReturn(java.time.LocalDate.of(2000, 1, 1));
+        Course course = mock(Course.class);
+        when(course.getNumCourse()).thenReturn(2L);
+        when(course.getTypeCourse()).thenReturn(tn.esprit.spring.entities.TypeCourse.INDIVIDUAL);
         registration.setNumWeek(1);
         when(skierRepository.findById(1L)).thenReturn(java.util.Optional.of(skier));
         when(courseRepository.findById(2L)).thenReturn(java.util.Optional.of(course));
