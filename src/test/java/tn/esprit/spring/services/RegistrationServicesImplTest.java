@@ -89,6 +89,77 @@ class RegistrationServicesImplTest {
     }
 
     @Test
+    void testAddRegistrationAndAssignToSkierAndCourse_nullSkier() {
+        Registration registration = new Registration();
+        when(skierRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+        when(courseRepository.findById(2L)).thenReturn(java.util.Optional.of(mock(Course.class)));
+        Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 2L);
+        assertNull(result);
+    }
+
+    @Test
+    void testAddRegistrationAndAssignToSkierAndCourse_nullCourse() {
+        Registration registration = new Registration();
+        when(skierRepository.findById(1L)).thenReturn(java.util.Optional.of(mock(Skier.class)));
+        when(courseRepository.findById(2L)).thenReturn(java.util.Optional.empty());
+        Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 2L);
+        assertNull(result);
+    }
+
+    @Test
+    void testAddRegistrationAndAssignToSkierAndCourse_duplicateRegistration() {
+        Registration registration = new Registration();
+        Skier skier = mock(Skier.class);
+        when(skier.getNumSkier()).thenReturn(1L);
+        when(skier.getDateOfBirth()).thenReturn(java.time.LocalDate.of(2000, 1, 1));
+        Course course = mock(Course.class);
+        when(course.getNumCourse()).thenReturn(2L);
+        when(course.getTypeCourse()).thenReturn(tn.esprit.spring.entities.TypeCourse.INDIVIDUAL);
+        registration.setNumWeek(1);
+        when(skierRepository.findById(1L)).thenReturn(java.util.Optional.of(skier));
+        when(courseRepository.findById(2L)).thenReturn(java.util.Optional.of(course));
+        when(registrationRepository.countDistinctByNumWeekAndSkier_NumSkierAndCourse_NumCourse(1, 1L, 2L)).thenReturn(1L);
+        Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 2L);
+        assertNull(result);
+    }
+
+    @Test
+    void testAddRegistrationAndAssignToSkierAndCourse_collectiveChildren() {
+        Registration registration = new Registration();
+        Skier skier = mock(Skier.class);
+        when(skier.getNumSkier()).thenReturn(1L);
+        when(skier.getDateOfBirth()).thenReturn(java.time.LocalDate.of(2015, 1, 1));
+        Course course = mock(Course.class);
+        when(course.getNumCourse()).thenReturn(2L);
+        when(course.getTypeCourse()).thenReturn(tn.esprit.spring.entities.TypeCourse.COLLECTIVE_CHILDREN);
+        registration.setNumWeek(1);
+        when(skierRepository.findById(1L)).thenReturn(java.util.Optional.of(skier));
+        when(courseRepository.findById(2L)).thenReturn(java.util.Optional.of(course));
+        when(registrationRepository.countDistinctByNumWeekAndSkier_NumSkierAndCourse_NumCourse(1, 1L, 2L)).thenReturn(0L);
+        when(registrationRepository.save(any(Registration.class))).thenReturn(registration);
+        Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 2L);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testAddRegistrationAndAssignToSkierAndCourse_collectiveAdult() {
+        Registration registration = new Registration();
+        Skier skier = mock(Skier.class);
+        when(skier.getNumSkier()).thenReturn(1L);
+        when(skier.getDateOfBirth()).thenReturn(java.time.LocalDate.of(1990, 1, 1));
+        Course course = mock(Course.class);
+        when(course.getNumCourse()).thenReturn(2L);
+        when(course.getTypeCourse()).thenReturn(tn.esprit.spring.entities.TypeCourse.COLLECTIVE_ADULT);
+        registration.setNumWeek(1);
+        when(skierRepository.findById(1L)).thenReturn(java.util.Optional.of(skier));
+        when(courseRepository.findById(2L)).thenReturn(java.util.Optional.of(course));
+        when(registrationRepository.countDistinctByNumWeekAndSkier_NumSkierAndCourse_NumCourse(1, 1L, 2L)).thenReturn(0L);
+        when(registrationRepository.save(any(Registration.class))).thenReturn(registration);
+        Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 2L);
+        assertNotNull(result);
+    }
+
+    @Test
     void testNumWeeksCourseOfInstructorBySupport() {
         List<Integer> weeks = Collections.singletonList(1);
         when(registrationRepository.numWeeksCourseOfInstructorBySupport(1L, Support.SKI)).thenReturn(weeks);
